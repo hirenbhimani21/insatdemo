@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Social Media Boost 🚀</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #f0f0f0;
+      padding: 10px;
+      font-size: 14px;
+    }
+    .card {
+      max-width: 600px;
+      margin: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .nav-links a {
+      font-weight: bold;
+      color: #25d366 !important;
+      text-decoration: none;
+    }
+    .price {
+      font-weight: bold;
+      color: #25d366;
+    }
+    .note {
+      font-size: 14px;
+      color: red;
+    }
+    #summary {
+      border: 1px dashed #25d366;
+      background: #eafff1;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .notice-banner {
+      background-color: #ffcc00;
+      color: #000;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    .combo-breakdown {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    .combo-item {
+      flex: 1;
+      text-align: center;
+      padding: 5px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      margin: 0 2px;
+      font-size: 13px;
+    }
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+    .was-validated .form-control:invalid {
+      border-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="card p-4 bg-white">
+    <!-- Notice Banner -->
+    <div class="notice-banner">
+      ⚠️ This is demo project. For purchases, please message on WhatsApp.
+    </div>
+    
+    <!-- Navbar Inside Card -->
+    <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+      <a href="https://wa.me/918153071343" target="_blank" class="nav-links">Contact</a>
+      <a href="https://www.instagram.com/hiren_21_01" target="_blank" class="nav-links">Proof</a>
+      <a href="https://chat.whatsapp.com/IWnNpX6GEviCBSGPL9soDW" target="_blank" class="nav-links">Join Group</a>
+    </div>
+
+    <h2 class="text-center mb-3">SOCIAL MEDIA BOOST 🚀</h2>
+    <p class="note text-center">Please make sure your Instagram account is public to proceed with the order.</p>
+
+    <form id="orderForm" class="needs-validation" novalidate>
+      <!-- Service Selection -->
+      <div class="mb-3">
+        <label class="form-label">Choose a Service:</label>
+        <select id="service" class="form-select" onchange="showServiceOptions(); calculatePrice();" required>
+          <option value="">Select a Service</option>
+          <option value="Combo">Combo Pack</option>
+          <option value="Views">Views</option>
+          <option value="Likes">Likes</option>
+          <option value="Followers">Followers</option>
+        </select>
+        <div class="invalid-feedback">Please select a service</div>
+      </div>
+
+      <!-- Combo Pack -->
+      <div id="comboFields" style="display:none;">
+        <label class="form-label">Choose Combo Pack:</label>
+        <select id="comboPack" class="form-select" onchange="calculatePrice()">
+          <option value="Starter">Starter Pack – ₹40</option>
+          <option value="Pro">Pro Pack – ₹190</option>
+          <option value="Max">Max Pack – ₹380</option>
+          <option value="Ultimate">Ultimate Pack – ₹600</option>
+        </select>
+        <div id="comboDetails" class="mt-2">
+          <div class="combo-breakdown">
+            <div class="combo-item">1K Views</div>
+            <div class="combo-item">1K Likes</div>
+          </div>
+        </div>
+        <input type="text" id="reelLink" class="form-control mt-2" placeholder="Instagram Reel Link" required pattern="https?://(www\.)?instagram\.com/reel/.*" />
+        <div class="error-message" id="reelLinkError">Please enter a valid Instagram Reel link</div>
+        <div class="price mt-1" id="comboPrice">Price: ₹40</div>
+      </div>
+
+      <!-- Views -->
+      <div id="viewFields" style="display:none;">
+        <label class="form-label">Choose Views Package:</label>
+        <select id="viewsPack" class="form-select" onchange="calculatePrice()">
+          <option value="">Select</option>
+          <option value="1">1K Views – ₹20</option>
+          <option value="5">5K Views – ₹90</option>
+          <option value="10">10K Views – ₹160</option>
+          <option value="50">50K Views – ₹350</option>
+          <option value="100">100K Views – ₹550</option>
+        </select>
+        <input type="text" id="viewLink" class="form-control mt-2" placeholder="Instagram Post Link" required pattern="https?://(www\.)?instagram\.com/p/.*" />
+        <div class="error-message" id="viewLinkError">Please enter a valid Instagram Post link</div>
+        <div class="price mt-1" id="viewPrice"></div>
+      </div>
+
+      <!-- Likes -->
+      <div id="likeFields" style="display:none;">
+        <label class="form-label">Choose Likes Package:</label>
+        <select id="likesPack" class="form-select" onchange="calculatePrice()">
+          <option value="">Select</option>
+          <option value="1">1K Likes – ₹25</option>
+          <option value="5">5K Likes – ₹120</option>
+          <option value="10">10K Likes – ₹240</option>
+        </select>
+        <input type="text" id="likeLink" class="form-control mt-2" placeholder="Instagram Post/Reel Link" required pattern="https?://(www\.)?instagram\.com/(p|reel)/.*" />
+        <div class="error-message" id="likeLinkError">Please enter a valid Instagram Post or Reel link</div>
+        <div class="price mt-1" id="likePrice"></div>
+      </div>
+
+      <!-- Followers -->
+      <div id="followersFields" style="display:none;">
+        <label class="form-label">Choose Followers Package:</label>
+        <select id="followersPack" class="form-select" onchange="calculatePrice()">
+          <option value="1">1K Followers – ₹240</option>
+        </select>
+        <input type="text" id="followersLink" class="form-control mt-2" placeholder="Instagram Profile Link" required pattern="https?://(www\.)?instagram\.com/[a-zA-Z0-9_.]{1,30}/?" />
+        <div class="error-message" id="followersLinkError">Please enter a valid Instagram Profile link</div>
+        <div class="price mt-1" id="followersPrice"></div>
+      </div>
+
+      <label class="form-label mt-3">Any Notes (Optional):</label>
+      <textarea id="notes" rows="3" class="form-control" placeholder="Write something..."></textarea>
+
+      <button type="submit" class="btn btn-success mt-3 w-100">Place Order via WhatsApp</button>
+    </form>
+
+    <!-- Summary Section -->
+    <div id="summary" class="mt-3"></div>
+  </div>
+
+  <script>
+    const comboDetails = {
+      Starter: {
+        views: "1K",
+        likes: "1K",
+        desc: "1K Views + 1K Likes",
+        price: 40
+      },
+      Pro: {
+        views: "10K",
+        likes: "5K",
+        desc: "10K Views + 5K Likes",
+        price: 190
+      },
+      Max: {
+        views: "50K",
+        likes: "10K",
+        desc: "50K Views + 10K Likes",
+        price: 380
+      },
+      Ultimate: {
+        views: "100K",
+        likes: "10K",
+        desc: "100K Views + 10K Likes",
+        price: 600
+      }
+    };
+
+    function showServiceOptions() {
+      const service = document.getElementById("service").value;
+      ["comboFields", "viewFields", "likeFields", "followersFields"].forEach(id => {
+        document.getElementById(id).style.display = "none";
+      });
+      if (service === "Combo") {
+        document.getElementById("comboFields").style.display = "block";
+        updateComboDisplay("Starter");
+      }
+      if (service === "Views") document.getElementById("viewFields").style.display = "block";
+      if (service === "Likes") document.getElementById("likeFields").style.display = "block";
+      if (service === "Followers") document.getElementById("followersFields").style.display = "block";
+    }
+
+    function updateComboDisplay(pack) {
+      const details = comboDetails[pack];
+      const comboDetailsDiv = document.getElementById("comboDetails");
+      
+      comboDetailsDiv.innerHTML = `
+        <div class="combo-breakdown">
+          <div class="combo-item">${details.views} Views</div>
+          <div class="combo-item">${details.likes} Likes</div>
+        </div>
+      `;
+      document.getElementById("comboPrice").innerText = `Price: ₹${details.price}`;
+    }
+
+    function calculatePrice() {
+      const prices = {
+        viewsPack: {1: 20, 5: 90, 10: 160, 50: 350, 100: 550},
+        likesPack: {1: 25, 5: 120, 10: 240},
+        followersPack: {1: 240}
+      };
+
+      const service = document.getElementById("service").value;
+      let summaryText = "", price = 0, link = "";
+
+      if (service === "Combo") {
+        const pack = document.getElementById("comboPack").value;
+        if (!pack) return;
+        updateComboDisplay(pack);
+        summaryText = `Service: Combo\nPackage: ${comboDetails[pack].desc}\nPrice: ₹${comboDetails[pack].price}`;
+        link = document.getElementById("reelLink").value;
+      } else if (service === "Views") {
+        const pack = parseInt(document.getElementById("viewsPack").value);
+        if (!pack) return;
+        document.getElementById("viewPrice").innerText = `Price: ₹${prices.viewsPack[pack]}`;
+        summaryText = `Service: Views\nPackage: ${pack}K Views\nPrice: ₹${prices.viewsPack[pack]}`;
+        link = document.getElementById("viewLink").value;
+      } else if (service === "Likes") {
+        const pack = parseInt(document.getElementById("likesPack").value);
+        if (!pack) return;
+        document.getElementById("likePrice").innerText = `Price: ₹${prices.likesPack[pack]}`;
+        summaryText = `Service: Likes\nPackage: ${pack}K Likes\nPrice: ₹${prices.likesPack[pack]}`;
+        link = document.getElementById("likeLink").value;
+      } else if (service === "Followers") {
+        const pack = 1;
+        document.getElementById("followersPrice").innerText = `Price: ₹${prices.followersPack[1]}`;
+        summaryText = `Service: Followers\nPackage: 1K Followers\nPrice: ₹${prices.followersPack[1]}`;
+        link = document.getElementById("followersLink").value;
+      }
+
+      document.getElementById("summary").innerHTML = `<b>Order Summary:</b><br>${summaryText.replace(/\n/g, "<br>")}<br>Link: ${link}`;
+    }
+
+    // Validate Instagram links
+    function validateInstagramLink(input, type) {
+      const value = input.value.trim();
+      let isValid = false;
+      
+      switch(type) {
+        case 'reel':
+          isValid = /https?:\/\/(www\.)?instagram\.com\/reel\/.*/.test(value);
+          break;
+        case 'post':
+          isValid = /https?:\/\/(www\.)?instagram\.com\/p\/.*/.test(value);
+          break;
+        case 'profile':
+          isValid = /https?:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9_.]{1,30}\/?/.test(value);
+          break;
+        case 'post_or_reel':
+          isValid = /https?:\/\/(www\.)?instagram\.com\/(p|reel)\/.*/.test(value);
+          break;
+      }
+      
+      if (!isValid && value !== "") {
+        input.classList.add('is-invalid');
+        document.getElementById(`${input.id}Error`).style.display = 'block';
+      } else {
+        input.classList.remove('is-invalid');
+        document.getElementById(`${input.id}Error`).style.display = 'none';
+      }
+      
+      return isValid;
+    }
+
+    // Event listeners for link validation
+    document.getElementById('reelLink').addEventListener('input', function() {
+      validateInstagramLink(this, 'reel');
+    });
+    
+    document.getElementById('viewLink').addEventListener('input', function() {
+      validateInstagramLink(this, 'post');
+    });
+    
+    document.getElementById('likeLink').addEventListener('input', function() {
+      validateInstagramLink(this, 'post_or_reel');
+    });
+    
+    document.getElementById('followersLink').addEventListener('input', function() {
+      validateInstagramLink(this, 'profile');
+    });
+
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const service = document.getElementById("service").value;
+      if (!service) {
+        document.getElementById("service").classList.add('is-invalid');
+        return;
+      }
+      
+      let linkValid = false;
+      let linkField = null;
+      
+      if (service === "Combo") {
+        linkField = document.getElementById("reelLink");
+        linkValid = validateInstagramLink(linkField, 'reel');
+      } else if (service === "Views") {
+        linkField = document.getElementById("viewLink");
+        linkValid = validateInstagramLink(linkField, 'post');
+      } else if (service === "Likes") {
+        linkField = document.getElementById("likeLink");
+        linkValid = validateInstagramLink(linkField, 'post_or_reel');
+      } else if (service === "Followers") {
+        linkField = document.getElementById("followersLink");
+        linkValid = validateInstagramLink(linkField, 'profile');
+      }
+      
+      if (!linkValid || !linkField.value.trim()) {
+        if (linkField) {
+          linkField.classList.add('is-invalid');
+          document.getElementById(`${linkField.id}Error`).style.display = 'block';
+          linkField.focus();
+        }
+        return;
+      }
+      
+      // If validation passes, proceed with order
+      let detail = "", price = "", link = "";
+
+      if (service === "Combo") {
+        const pack = document.getElementById("comboPack").value;
+        detail = comboDetails[pack].desc;
+        price = `₹${comboDetails[pack].price}`;
+        link = document.getElementById("reelLink").value;
+      } else if (service === "Views") {
+        detail = document.getElementById("viewsPack").value + "K Views";
+        price = document.getElementById("viewPrice").innerText;
+        link = document.getElementById("viewLink").value;
+      } else if (service === "Likes") {
+        detail = document.getElementById("likesPack").value + "K Likes";
+        price = document.getElementById("likePrice").innerText;
+        link = document.getElementById("likeLink").value;
+      } else if (service === "Followers") {
+        detail = "1K Followers";
+        price = document.getElementById("followersPrice").innerText;
+        link = document.getElementById("followersLink").value;
+      }
+
+      const notes = document.getElementById("notes").value;
+      const msg = `🚀 *New Order* 🚀\n\nService: *${service}*\nPackage: ${detail}\nPrice: ${price}\nLink: ${link}\nNotes: ${notes}`;
+      window.open(`https://wa.me/8153071343?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
+    // Initialize with default combo details
+    window.onload = function() {
+      updateComboDisplay("Starter");
+    };
+  </script>
+</body>
+</html>
